@@ -449,7 +449,7 @@ export const train = (tokensExample: number[], learningRate: number, gradientCon
     } else {
       // Если эмбеддинга нет, создаем нулевой вектор
       console.warn(`Токен ${token} не найден в tokenEmbedding. Используется нулевой вектор.`);
-      return Array(20).fill(0);
+      return Array(Wk1.length).fill(0);
     }
   });
 
@@ -457,14 +457,14 @@ export const train = (tokensExample: number[], learningRate: number, gradientCon
   const combinedEmbeddings: number[][] = [];
 
   for (let i = 0; i < 64; i++) {
-    const tokenVec = i < tokenEmbeddings.length ? tokenEmbeddings[i] : Array(20).fill(0);
+    const tokenVec = i < tokenEmbeddings.length ? tokenEmbeddings[i] : Array(Wk1.length).fill(0);
 
     // Проверяем, существует ли позиционный эмбеддинг
     let posVec: number[];
     if (positionEmbedding && positionEmbedding[i]) {
       posVec = positionEmbedding[i];
     } else {
-      posVec = Array(20).fill(0);
+      posVec = Array(Wk1.length).fill(0);
     }
 
     // Проверяем, что tokenVec существует и является массивом
@@ -476,7 +476,7 @@ export const train = (tokensExample: number[], learningRate: number, gradientCon
       combinedEmbeddings.push(combined);
     } else {
       // Если tokenVec не валиден, используем нулевой вектор
-      combinedEmbeddings.push(Array(20).fill(0));
+      combinedEmbeddings.push(Array(Wk1.length).fill(0));
     }
   }
 
@@ -752,7 +752,7 @@ export const train = (tokensExample: number[], learningRate: number, gradientCon
   for (let i = 0; i < Math.min(inputTokens.length, dEmbeddingsCombined.length); i++) {
     const tokenId = inputTokens[i];
     if (tokenId !== undefined && tokenEmbedding[tokenId]) {
-      for (let j = 0; j < 20; j++) {
+      for (let j = 0; j < Wk1.length; j++) {
         tokenEmbedding[tokenId][j] -= learningRate * dEmbeddingsCombined[i][j];
       }
     }
@@ -760,7 +760,7 @@ export const train = (tokensExample: number[], learningRate: number, gradientCon
 
   for (let i = 0; i < Math.min(64, dEmbeddingsCombined.length); i++) {
     if (positionEmbedding[i]) {
-      for (let j = 0; j < 20; j++) {
+      for (let j = 0; j < Wk1.length; j++) {
         positionEmbedding[i][j] -= learningRate * dEmbeddingsCombined[i][j];
       }
     }

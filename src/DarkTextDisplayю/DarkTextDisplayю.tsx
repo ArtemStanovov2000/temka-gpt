@@ -53,6 +53,8 @@ import { gammaAfterFFN_4 } from "../matrix/layer4/gammaAfterFFN_4";
 
 import { linearLayer } from "../matrix/linearLayer";
 
+console.log(Wk4.length)
+
 const gradientConfig = {
   clipNorm: 1.2,
   clipValue: { min: -2.0, max: 2.0 },
@@ -171,7 +173,7 @@ const DarkTextDisplay: React.FC = () => {
     if (isTraining) return;
 
     setIsTraining(true);
-    const trainingIterations = 1000;
+    const trainingIterations = 5000;
 
     // Синхронный цикл обучения (блокирует UI, как и требуется)
     console.time()
