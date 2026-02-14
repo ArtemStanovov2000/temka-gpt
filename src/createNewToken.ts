@@ -1,112 +1,106 @@
 import { vocab } from "./vocab";
 
-import { tokenEmbedding } from "./matrix/tokenEmbedding"; //number[][]
-import { positionEmbedding } from "./matrix/positionEmbedding"; //number[][]
+import { embeddingWeight } from "./matrix/embeddingWeight"; // 2D матрица, размер: 251x200
+import { posEmbeddingWeight } from "./matrix/posEmbeddingWeight";  // 2D матрица, размер: 400x200
 
-import { Wk1 } from "./matrix/layer1/Wk1"; //number[][]
-import { Wo1 } from "./matrix/layer1/Wo1"; //number[][]
-import { Wq1 } from "./matrix/layer1/Wq1"; //number[][]
-import { Wv1 } from "./matrix/layer1/Wv1"; //number[][]
-import { FFN_W11 } from "./matrix/layer1/FFN_W11"; //number[][]
-import { FFN_W21 } from "./matrix/layer1/FFN_W21"; //number[][]
-import { betaAfterAttention_1 } from "./matrix/layer1/betaAfterAttention_1";
-import { gammaAfterAttention_1 } from "./matrix/layer1/gammaAfterAttention_1"; //number[]
-import { betaAfterFFN_1 } from "./matrix/layer1/betaAfterFFN_1"; //number[]
-import { gammaAfterFFN_1 } from "./matrix/layer1/gammaAfterFFN_1"; //number[]
+import { layerNormFinalBias } from "./matrix/layerNormFinalBias"; // 1D вектор, размер: 200
+import { layerNormFinalWeight } from "./matrix/layerNormFinalWeight"; // 1D вектор, размер: 200
 
-import { Wk2 } from "./matrix/layer2/Wk2"; //number[][]
-import { Wo2 } from "./matrix/layer2/Wo2"; //number[][]
-import { Wq2 } from "./matrix/layer2/Wq2"; //number[][]
-import { Wv2 } from "./matrix/layer2/Wv2"; //number[][]
-import { FFN_W12 } from "./matrix/layer2/FFN_W12"; //number[][]
-import { FFN_W22 } from "./matrix/layer2/FFN_W22"; //number[][]
-import { betaAfterAttention_2 } from "./matrix/layer2/betaAfterAttention_2"; //number[]
-import { gammaAfterAttention_2 } from "./matrix/layer2/gammaAfterAttention_2"; //number[]
-import { betaAfterFFN_2 } from "./matrix/layer2/betaAfterFFN_2"; //number[]
-import { gammaAfterFFN_2 } from "./matrix/layer2/gammaAfterFFN_2"; //number[]
+import { layers0Linear1Bias } from "./matrix/layers0Linear1Bias"; // 1D вектор, размер: 800
+import { layers0Linear1Weight } from "./matrix/layers0Linear1Weight"; // 2D матрица, размер: 800x200
+import { layers0Linear2Bias } from "./matrix/layers0Linear2Bias"; // 1D вектор, размер: 200
+import { layers0Linear2Weight } from "./matrix/layers0Linear2Weight"; // 2D матрица, размер: 200x800
+import { layers0Norm1Bias } from "./matrix/layers0Norm1Bias"; // 1D вектор, размер: 200
+import { layers0Norm1Weight } from "./matrix/layers0Norm1Weight"; // 1D вектор, размер: 200
+import { layers0Norm2Bias } from "./matrix/layers0Norm2Bias"; // 1D вектор, размер: 200
+import { layers0Norm2Weight } from "./matrix/layers0Norm2Weight"; // 1D вектор, размер: 200
+import { layers0SelfAttnInProjBias } from "./matrix/layers0SelfAttnInProjBias"; // 1D вектор, размер: 600
+import { layers0SelfAttnInProjWeight } from "./matrix/layers0SelfAttnInProjWeight"; // 2D матрица, размер: 600x200
+import { layers0SelfAttnOutProjBias } from "./matrix/layers0SelfAttnOutProjBias"; // 1D вектор, размер: 200
+import { layers0SelfAttnOutProjWeight } from "./matrix/layers0SelfAttnOutProjWeight"; // 2D матрица, размер: 200x200
 
-import { Wk3 } from "./matrix/layer3/Wk3";
-import { Wo3 } from "./matrix/layer3/Wo3";
-import { Wq3 } from "./matrix/layer3/Wq3";
-import { Wv3 } from "./matrix/layer3/Wv3";
-import { FFN_W13 } from "./matrix/layer3/FFN_W13";
-import { FFN_W23 } from "./matrix/layer3/FFN_W23";
-import { betaAfterAttention_3 } from "./matrix/layer3/betaAfterAttention_3";
-import { gammaAfterAttention_3 } from "./matrix/layer3/gammaAfterAttention_3";
-import { betaAfterFFN_3 } from "./matrix/layer3/betaAfterFFN_3";
-import { gammaAfterFFN_3 } from "./matrix/layer3/gammaAfterFFN_3";
+import { layers1Linear1Bias } from "./matrix/layers1Linear1Bias"; // 1D вектор, размер: 800
+import { layers1Linear1Weight } from "./matrix/layers1Linear1Weight"; // 2D матрица, размер: 800x200
+import { layers1Linear2Bias } from "./matrix/layers1Linear2Bias"; // 1D вектор, размер: 200
+import { layers1Linear2Weight } from "./matrix/layers1Linear2Weight"; // 2D матрица, размер: 200x800
+import { layers1Norm1Bias } from "./matrix/layers1Norm1Bias"; // 1D вектор, размер: 200
+import { layers1Norm1Weight } from "./matrix/layers1Norm1Weight"; // 1D вектор, размер: 200
+import { layers1Norm2Bias } from "./matrix/layers1Norm2Bias"; // 1D вектор, размер: 200
+import { layers1Norm2Weight } from "./matrix/layers1Norm2Weight"; // 1D вектор, размер: 200
+import { layers1SelfAttnInProjBias } from "./matrix/layers1SelfAttnInProjBias"; // 1D вектор, размер: 600
+import { layers1SelfAttnInProjWeight } from "./matrix/layers1SelfAttnInProjWeight"; // 2D матрица, размер: 600x200
+import { layers1SelfAttnOutProjBias } from "./matrix/layers1SelfAttnOutProjBias"; // 1D вектор, размер: 200
+import { layers1SelfAttnOutProjWeight } from "./matrix/layers1SelfAttnOutProjWeight"; // 2D матрица, размер: 200x200
 
-import { Wk4 } from "./matrix/layer4/Wk4";
-import { Wo4 } from "./matrix/layer4/Wo4";
-import { Wq4 } from "./matrix/layer4/Wq4";
-import { Wv4 } from "./matrix/layer4/Wv4";
-import { FFN_W14 } from "./matrix/layer4/FFN_W14";
-import { FFN_W24 } from "./matrix/layer4/FFN_W24";
-import { betaAfterAttention_4 } from "./matrix/layer4/betaAfterAttention_4";
-import { gammaAfterAttention_4 } from "./matrix/layer4/gammaAfterAttention_4";
-import { betaAfterFFN_4 } from "./matrix/layer4/betaAfterFFN_4";
-import { gammaAfterFFN_4 } from "./matrix/layer4/gammaAfterFFN_4";
+import { layers2Linear1Bias } from "./matrix/layers2Linear1Bias"; // 1D вектор, размер: 800
+import { layers2Linear1Weight } from "./matrix/layers2Linear1Weight"; // 2D матрица, размер: 800x200
+import { layers2Linear2Bias } from "./matrix/layers2Linear2Bias"; // 1D вектор, размер: 200
+import { layers2Linear2Weight } from "./matrix/layers2Linear2Weight"; // 2D матрица, размер: 200x800
+import { layers2Norm1Bias } from "./matrix/layers2Norm1Bias"; // 1D вектор, размер: 200
+import { layers2Norm1Weight } from "./matrix/layers2Norm1Weight"; // 1D вектор, размер: 200
+import { layers2Norm2Bias } from "./matrix/layers2Norm2Bias"; // 1D вектор, размер: 200
+import { layers2Norm2Weight } from "./matrix/layers2Norm2Weight"; // 1D вектор, размер: 200
+import { layers2SelfAttnInProjBias } from "./matrix/layers2SelfAttnInProjBias"; // 1D вектор, размер: 600
+import { layers2SelfAttnInProjWeight } from "./matrix/layers2SelfAttnInProjWeight"; // 2D матрица, размер: 600x200
+import { layers2SelfAttnOutProjBias } from "./matrix/layers2SelfAttnOutProjBias"; // 1D вектор, размер: 200
+import { layers2SelfAttnOutProjWeight } from "./matrix/layers2SelfAttnOutProjWeight"; // 2D матрица, размер: 200x200
 
-import { linearLayer } from "./matrix/linearLayer"; //number[][]
+import { layers3Linear1Bias } from "./matrix/layers3Linear1Bias"; // 1D вектор, размер: 800
+import { layers3Linear1Weight } from "./matrix/layers3Linear1Weight"; // 2D матрица, размер: 800x200
+import { layers3Linear2Bias } from "./matrix/layers3linear2Bias"; // 1D вектор, размер: 200
+import { layers3Linear2Weight } from "./matrix/layers3Linear2Weight"; // 2D матрица, размер: 200x800
+import { layers3Norm1Bias } from "./matrix/layers3Norm1Bias"; // 1D вектор, размер: 200
+import { layers3Norm1Weight } from "./matrix/layers3Norm1Weight"; // 1D вектор, размер: 200
+import { layers3Norm2Bias } from "./matrix/layers3Norm2Bias"; // 1D вектор, размер: 200
+import { layers3Norm2Weight } from "./matrix/layers3Norm2Weight"; // 1D вектор, размер: 200
+import { layers3SelfAttnInProjBias } from "./matrix/layers3SelfAttnInProjBias"; // 1D вектор, размер: 600
+import { layers3SelfAttnInProjWeight } from "./matrix/layers3SelfAttnInProjWeight"; // 2D матрица, размер: 600x200
+import { layers3SelfAttnOutProjBias } from "./matrix/layers3SelfAttnOutProjBias"; // 1D вектор, размер: 200
+import { layers3SelfAttnOutProjWeight } from "./matrix/layers3SelfAttnOutProjWeight"; // 2D матрица, размер: 200x200
 
-const TEMPERATURE = 0.8
+import { outputWeight } from "./matrix/outputWeight"; // 2D матрица, размер: 251x200
+import { outputBias } from "./matrix/outputBias"; // 1D вектор, размер: 251
+
+const TEMPERATURE = 0.8;
 
 export const tokenize = (text: string, vocab: { [key: number]: string }): number[] => {
     const charToIdx: { [key: string]: number } = {};
-
-    // Создаем обратный словарь
     for (const [idx, char] of Object.entries(vocab)) {
         charToIdx[char] = parseInt(idx);
     }
-
     const tokens: number[] = [];
     for (const char of text) {
-        tokens.push(charToIdx[char] !== undefined ? charToIdx[char] : charToIdx['[UNK]']);
+        tokens.push(charToIdx[char] ?? charToIdx['[UNK]']);
     }
     return tokens;
-}
+};
 
 const detokenize = (tokens: number[], vocab: { [key: number]: string }): string => {
-    const chars: string[] = [];
-    for (const token of tokens) {
-        chars.push(vocab[token] !== undefined ? vocab[token] : '[UNK]');
-    }
-    return chars.join('');
-}
+    return tokens.map(t => vocab[t] ?? '[UNK]').join('');
+};
 
-const createEmbeddingsSequence = (tokens: number[]): number[][] => {
-    return tokens.map(element => tokenEmbedding[element])
-}
-
-const createPozSequence = (embeddings: number[][], pozitionMatrix: number[][]): number[][] => {
-    const paddingLength = pozitionMatrix.length - embeddings.length
-    const paddingArray = []
-    for (let i = 0; i < paddingLength; i++) {
-        const paddingInstance = []
-        for (let j = 0; j < embeddings[0].length; j++) {
-            paddingInstance.push(0)
+// Транспонирование матрицы
+const transpose = (matrix: number[][]): number[][] => {
+    const rows = matrix.length;
+    const cols = matrix[0].length;
+    const result: number[][] = Array.from({ length: cols }, () => Array(rows));
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            result[j][i] = matrix[i][j];
         }
-        paddingArray.push(paddingInstance)
     }
+    return result;
+};
 
-    return embeddings.map((tokenVector, i) =>
-        tokenVector.map((value, j) => value + pozitionMatrix[i][j])
-    ).concat(paddingArray);
-}
-
-const matrixMultiply = (a: number[][], b: number[][]): number[][] => {
+// Умножение матриц
+const matMul = (a: number[][], b: number[][]): number[][] => {
     const rowsA = a.length;
     const colsA = a[0].length;
     const rowsB = b.length;
     const colsB = b[0].length;
-
-    if (colsA !== rowsB) {
-        throw new Error("Несовместимые размеры матриц для умножения");
-    }
-
-    const result: number[][] = [];
+    if (colsA !== rowsB) throw new Error("Несовместимые размеры");
+    const result: number[][] = Array.from({ length: rowsA }, () => Array(colsB).fill(0));
     for (let i = 0; i < rowsA; i++) {
-        result[i] = [];
         for (let j = 0; j < colsB; j++) {
             let sum = 0;
             for (let k = 0; k < colsA; k++) {
@@ -118,216 +112,239 @@ const matrixMultiply = (a: number[][], b: number[][]): number[][] => {
     return result;
 };
 
-const matrixTranspose = (matrix: number[][]): number[][] => {
-    const rows = matrix.length;
-    const cols = matrix[0].length;
-    const result: number[][] = [];
+// Сложение матриц
+const matAdd = (a: number[][], b: number[][]): number[][] => {
+    return a.map((row, i) => row.map((val, j) => val + b[i][j]));
+};
 
-    for (let j = 0; j < cols; j++) {
-        result[j] = [];
-        for (let i = 0; i < rows; i++) {
-            result[j][i] = matrix[i][j];
-        }
-    }
-    return result;
+// Умножение матрицы на скаляр
+const matScalarMul = (matrix: number[][], scalar: number): number[][] => {
+    return matrix.map(row => row.map(v => v * scalar));
 };
 
 const gelu = (x: number): number => {
     return 0.5 * x * (1 + Math.tanh(Math.sqrt(2 / Math.PI) * (x + 0.044715 * Math.pow(x, 3))));
 };
 
-const matrixAdd = (a: number[][], b: number[][]): number[][] => {
-    return a.map((row, i) => row.map((val, j) => val + b[i][j]));
-};
-
-const matrixScalarMultiply = (matrix: number[][], scalar: number): number[][] => {
-    return matrix.map(row => row.map(val => val * scalar));
-};
-
+// Softmax для матрицы
 const softmax = (matrix: number[][]): number[][] => {
     return matrix.map(row => {
         const maxVal = Math.max(...row);
-        const expRow = row.map(val => Math.exp(val - maxVal));
-        const sumExp = expRow.reduce((sum, val) => sum + val, 0);
-        return expRow.map(val => val / sumExp);
+        const expRow = row.map(v => Math.exp(v - maxVal));
+        const sumExp = expRow.reduce((s, v) => s + v, 0);
+        return expRow.map(v => v / sumExp);
     });
 };
 
-const layerNorm = (
-    matrix: number[][],
-    gamma: number[],
-    beta: number[]
-): number[][] => {
-    const epsilon = 1e-8;
+// Layer Norm
+const layerNorm = (matrix: number[][], gamma: number[], beta: number[]): number[][] => {
+    const eps = 1e-8;
     return matrix.map(row => {
-        const mean = row.reduce((sum, val) => sum + val, 0) / row.length;
-        const variance = row.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / row.length;
-
-        return row.map((val, j) => {
-            const normalized = (val - mean) / Math.sqrt(variance + epsilon);
-            return normalized * gamma[j] + beta[j];
-        });
+        const mean = row.reduce((s, v) => s + v, 0) / row.length;
+        const variance = row.reduce((s, v) => s + (v - mean) ** 2, 0) / row.length;
+        const std = Math.sqrt(variance + eps);
+        return row.map((v, j) => ((v - mean) / std) * gamma[j] + beta[j]);
     });
 };
 
-const attentionLayer = (
-    input: number[][],
-    Wq: number[][],
-    Wk: number[][],
-    Wv: number[][],
-    Wo: number[][]
-): number[][] => {
-    const Q = matrixMultiply(input, Wq);
-    const K = matrixMultiply(input, Wk);
-    const V = matrixMultiply(input, Wv);
+// Токен-эмбеддинги и позиционные эмбеддинги
+const tokenEmbedding = embeddingWeight;
+const posEmbedding = posEmbeddingWeight;
 
-    const Kt = matrixTranspose(K);
-    const attentionScores = matrixMultiply(Q, Kt);
+// Финальная норма
+const finalLNWeight = layerNormFinalWeight;
+const finalLNBias = layerNormFinalBias;
 
-    const dk = Q[0].length;
-    const scaledAttention = matrixScalarMultiply(attentionScores, 1 / Math.sqrt(dk));
+// Выходной слой (транспонируем вес для удобства)
+const outputWeightT = transpose(outputWeight);
+const outputBiasVec = outputBias;
 
-    // Применяем causal mask
-    for (let i = 0; i < scaledAttention.length; i++) {
-        for (let j = i + 1; j < scaledAttention[i].length; j++) {
-            scaledAttention[i][j] = -Infinity;
-        }
-    }
-    const attentionWeights = softmax(scaledAttention);  // [64, 64]
-    const weightedValues = matrixMultiply(attentionWeights, V);  // [64, 10]
-    const output = matrixMultiply(weightedValues, Wo);  // [64, 10]
+// Функция разделения in_proj весов и bias на Q, K, V
+function splitInProj(weight: number[][], bias: number[]): {
+    Wq: number[][]; Wk: number[][]; Wv: number[][];
+    bq: number[];   bk: number[];   bv: number[];
+} {
+    const d = 200; // размерность модели
 
-    return output;
-};
+    const Wq = weight.slice(0, d);
+    const Wk = weight.slice(d, 2*d);
+    const Wv = weight.slice(2*d, 3*d);
 
-const transformerBlock = (
-    input: number[][],
-    layerParams: {
-        Wq: number[][];
-        Wk: number[][];
-        Wv: number[][];
-        Wo: number[][];
-        FFN_W1: number[][];
-        FFN_W2: number[][];
-        gammaAfterAttention: number[];
-        betaAfterAttention: number[];
-        gammaAfterFFN: number[];
-        betaAfterFFN: number[];
-    }
-): number[][] => {
-    // 1. Self-Attention с residual connection и layer norm
-    const attentionOutput = attentionLayer(input, layerParams.Wq, layerParams.Wk, layerParams.Wv, layerParams.Wo);
+    const bq = bias.slice(0, d);
+    const bk = bias.slice(d, 2*d);
+    const bv = bias.slice(2*d, 3*d);
 
-    // Residual connection + layer norm
-    const attentionResidual = matrixAdd(input, attentionOutput);
-    const normedAttention = layerNorm(attentionResidual, layerParams.gammaAfterAttention, layerParams.betaAfterAttention);
-
-    // 2. Feed-Forward Network
-    const ffnHidden = matrixMultiply(normedAttention, layerParams.FFN_W1);  // [64, 40]
-
-    // Применяем GELU активацию
-    const activatedHidden = ffnHidden.map(row => row.map(gelu));  // [64, 40]
-    const ffnOutput = matrixMultiply(activatedHidden, layerParams.FFN_W2);  // [64, 10]
-
-    // 3. Residual connection + layer norm
-    const ffnResidual = matrixAdd(normedAttention, ffnOutput);
-    const output = layerNorm(ffnResidual, layerParams.gammaAfterFFN, layerParams.betaAfterFFN);
-
-    return output;
-};
-
-const sampleFromDistribution = (probabilities: number[]): number => {
-    const random = Math.random();
-    let cumulative = 0;
-    
-    for (let i = 0; i < probabilities.length; i++) {
-        cumulative += probabilities[i];
-        if (random <= cumulative) {
-            return i;
-        }
-    }
-    
-    return probabilities.length - 1; // fallback
+    return {
+        Wq: transpose(Wq),
+        Wk: transpose(Wk),
+        Wv: transpose(Wv),
+        bq, bk, bv
+    };
 }
 
-const vectorMatrixMultiply = (vector: number[][], matrix: number[][]): number[][] => {
-    const result: number[][] = [];
-    for (let i = 0; i < vector.length; i++) {
-        result[i] = [];
-        for (let j = 0; j < matrix[0].length; j++) {
-            let sum = 0;
-            for (let k = 0; k < vector[0].length; k++) {
-                sum += vector[i][k] * matrix[k][j];
-            }
-            result[i][j] = sum;
+// Подготовка данных для всех слоёв
+const layerParams = [
+    // слой 0
+    {
+        ...splitInProj(layers0SelfAttnInProjWeight, layers0SelfAttnInProjBias),
+        Wo: transpose(layers0SelfAttnOutProjWeight),
+        bo: layers0SelfAttnOutProjBias,
+        norm1Weight: layers0Norm1Weight,
+        norm1Bias: layers0Norm1Bias,
+        norm2Weight: layers0Norm2Weight,
+        norm2Bias: layers0Norm2Bias,
+        ffn1Weight: transpose(layers0Linear1Weight),
+        ffn1Bias: layers0Linear1Bias,
+        ffn2Weight: transpose(layers0Linear2Weight),
+        ffn2Bias: layers0Linear2Bias,
+    },
+    // слой 1
+    {
+        ...splitInProj(layers1SelfAttnInProjWeight, layers1SelfAttnInProjBias),
+        Wo: transpose(layers1SelfAttnOutProjWeight),
+        bo: layers1SelfAttnOutProjBias,
+        norm1Weight: layers1Norm1Weight,
+        norm1Bias: layers1Norm1Bias,
+        norm2Weight: layers1Norm2Weight,
+        norm2Bias: layers1Norm2Bias,
+        ffn1Weight: transpose(layers1Linear1Weight),
+        ffn1Bias: layers1Linear1Bias,
+        ffn2Weight: transpose(layers1Linear2Weight),
+        ffn2Bias: layers1Linear2Bias,
+    },
+    // слой 2
+    {
+        ...splitInProj(layers2SelfAttnInProjWeight, layers2SelfAttnInProjBias),
+        Wo: transpose(layers2SelfAttnOutProjWeight),
+        bo: layers2SelfAttnOutProjBias,
+        norm1Weight: layers2Norm1Weight,
+        norm1Bias: layers2Norm1Bias,
+        norm2Weight: layers2Norm2Weight,
+        norm2Bias: layers2Norm2Bias,
+        ffn1Weight: transpose(layers2Linear1Weight),
+        ffn1Bias: layers2Linear1Bias,
+        ffn2Weight: transpose(layers2Linear2Weight),
+        ffn2Bias: layers2Linear2Bias,
+    },
+    // слой 3
+    {
+        ...splitInProj(layers3SelfAttnInProjWeight, layers3SelfAttnInProjBias),
+        Wo: transpose(layers3SelfAttnOutProjWeight),
+        bo: layers3SelfAttnOutProjBias,
+        norm1Weight: layers3Norm1Weight,
+        norm1Bias: layers3Norm1Bias,
+        norm2Weight: layers3Norm2Weight,
+        norm2Bias: layers3Norm2Bias,
+        ffn1Weight: transpose(layers3Linear1Weight),
+        ffn1Bias: layers3Linear1Bias,
+        ffn2Weight: transpose(layers3Linear2Weight),
+        ffn2Bias: layers3Linear2Bias,
+    }
+];
+
+// Self-Attention слой
+function attentionLayer(input: number[][], Wq: number[][], Wk: number[][], Wv: number[][], bq: number[], bk: number[], bv: number[], Wo: number[][], bo: number[]): number[][] {
+    const Q = matMul(input, Wq).map((row, i) => row.map((v, j) => v + bq[j]));
+    const K = matMul(input, Wk).map((row, i) => row.map((v, j) => v + bk[j]));
+    const V = matMul(input, Wv).map((row, i) => row.map((v, j) => v + bv[j]));
+
+    // Attention scores
+    const Kt = transpose(K);
+    const scores = matMul(Q, Kt);
+    const dk = Q[0].length;
+    const scaled = matScalarMul(scores, 1 / Math.sqrt(dk));
+
+    // Causal mask
+    for (let i = 0; i < scaled.length; i++) {
+        for (let j = i + 1; j < scaled[i].length; j++) {
+            scaled[i][j] = -Infinity;
         }
+    }
+
+    const weights = softmax(scaled);
+    const context = matMul(weights, V);
+    // Out projection
+    const out = matMul(context, Wo).map((row, i) => row.map((v, j) => v + bo[j]));
+    return out;
+}
+
+// Трансформерный блок
+function transformerBlock(input: number[][], p: typeof layerParams[0]): number[][] {
+    // 1. Attention с residual
+    const attnOut = attentionLayer(input, p.Wq, p.Wk, p.Wv, p.bq, p.bk, p.bv, p.Wo, p.bo);
+    const residual1 = matAdd(input, attnOut);
+    const norm1 = layerNorm(residual1, p.norm1Weight, p.norm1Bias);
+
+    // 2. FFN
+    // Первый линейный слой
+    const ffnHidden = matMul(norm1, p.ffn1Weight).map((row, i) =>row.map((v, j) => v + p.ffn1Bias[j]));
+    // Активация GELU
+    const activated = ffnHidden.map(row => row.map(gelu));
+    // Второй линейный слой
+    const ffnOut = matMul(activated, p.ffn2Weight).map((row, i) => row.map((v, j) => v + p.ffn2Bias[j]));
+
+    // 3. Residual и норма
+    const residual2 = matAdd(norm1, ffnOut);
+    const output = layerNorm(residual2, p.norm2Weight, p.norm2Bias);
+    return output;
+}
+
+// Создание последовательности эмбеддингов с позиционными
+function createEmbeddingSequence(tokens: number[]): number[][] {
+    const seqLen = tokens.length;
+    const embSeq = tokens.map(idx => tokenEmbedding[idx]);
+    const result: number[][] = [];
+    for (let i = 0; i < seqLen; i++) {
+        const posVec = posEmbedding[i] ?? new Array(200).fill(0);
+        result.push(embSeq[i].map((v, j) => v + posVec[j]));
+    }
+    while (result.length < posEmbeddingWeight.length) {
+        result.push(new Array(200).fill(0));
     }
     return result;
 }
 
-export const createNewToken = (text: string) => {
-    const tokenIndexes = tokenize(text, vocab)
-    const embeddingsSequence = createEmbeddingsSequence(tokenIndexes)
-    const pozSequence = createPozSequence(embeddingsSequence, positionEmbedding)
-
-    const layer1Output = transformerBlock(pozSequence, {
-        Wq: Wq1,
-        Wk: Wk1,
-        Wv: Wv1,
-        Wo: Wo1,
-        FFN_W1: FFN_W11,
-        FFN_W2: FFN_W21,
-        gammaAfterAttention: gammaAfterAttention_1,
-        betaAfterAttention: betaAfterAttention_1,
-        gammaAfterFFN: gammaAfterFFN_1,
-        betaAfterFFN: betaAfterFFN_1
-    });
-
-    const layer2Output = transformerBlock(layer1Output, {
-        Wq: Wq2,
-        Wk: Wk2,
-        Wv: Wv2,
-        Wo: Wo2,
-        FFN_W1: FFN_W12,
-        FFN_W2: FFN_W22,
-        gammaAfterAttention: gammaAfterAttention_2,
-        betaAfterAttention: betaAfterAttention_2,
-        gammaAfterFFN: gammaAfterFFN_2,
-        betaAfterFFN: betaAfterFFN_2
-    });
-
-    const layer3Output = transformerBlock(layer2Output, {
-        Wq: Wq3,
-        Wk: Wk3,
-        Wv: Wv3,
-        Wo: Wo3,
-        FFN_W1: FFN_W13,
-        FFN_W2: FFN_W23,
-        gammaAfterAttention: gammaAfterAttention_3,
-        betaAfterAttention: betaAfterAttention_3,
-        gammaAfterFFN: gammaAfterFFN_3,
-        betaAfterFFN: betaAfterFFN_3
-    });
-
-    const layer4Output = transformerBlock(layer3Output, {
-        Wq: Wq4,
-        Wk: Wk4,
-        Wv: Wv4,
-        Wo: Wo4,
-        FFN_W1: FFN_W14,
-        FFN_W2: FFN_W24,
-        gammaAfterAttention: gammaAfterAttention_4,
-        betaAfterAttention: betaAfterAttention_4,
-        gammaAfterFFN: gammaAfterFFN_4,
-        betaAfterFFN: betaAfterFFN_4
-    });
-
-    // линейный слой
-    const lastTokenEmbedding = layer4Output[tokenIndexes.length - 1];
-    const logits = vectorMatrixMultiply([lastTokenEmbedding], linearLayer)[0];
-    const temperedLogits = logits.map(logit => logit / TEMPERATURE);
-    const probabilities = softmax([temperedLogits])[0];
-    const nextTokenIndex = sampleFromDistribution(probabilities);
-
-    return detokenize([nextTokenIndex], vocab);
+// Семплирование следующего токена
+function sampleFromDistribution(probs: number[]): number {
+    const r = Math.random();
+    let cum = 0;
+    for (let i = 0; i < probs.length; i++) {
+        cum += probs[i];
+        if (r <= cum) return i;
+    }
+    return probs.length - 1;
 }
+
+// генерация следующего токена
+export const createNewToken = (text: string) => {
+    const tokenIds = tokenize(text, vocab);
+    const embSeq = createEmbeddingSequence(tokenIds);
+
+    let out = embSeq;
+    for (let i = 0; i < 4; i++) {
+        out = transformerBlock(out, layerParams[i]);
+    }
+
+    // Берём вектор последнего реального токена
+    const lastRealIndex = tokenIds.length - 1;
+    const lastTokenEmb = out[lastRealIndex];
+
+    // Финальная норма
+    const normalized = layerNorm([lastTokenEmb], finalLNWeight, finalLNBias)[0];
+
+    // Линейный слой
+    const logits = normalized.map((_, j) => {
+        let sum = 0;
+        for (let k = 0; k < normalized.length; k++) {
+            sum += normalized[k] * outputWeightT[k][j];
+        }
+        return sum + outputBiasVec[j];
+    });
+
+    // Температура и softmax
+    const tempered = logits.map(v => v / TEMPERATURE);
+    const probs = softmax([tempered])[0];
+
+    const nextTokenId = sampleFromDistribution(probs);
+    return {token: detokenize([nextTokenId], vocab), probs: probs};
+};
