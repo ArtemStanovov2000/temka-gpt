@@ -70,47 +70,10 @@ export const stylesDarkTextDisplay = {
     transition: 'height 0.1s ease',
     borderRadius: '2px 2px 0 0',
   },
-  histogramGrid: {
-    display: 'grid',
-    gridTemplateColumns: `repeat(15, 1fr)`, // 15 колонок, можно настроить
-    gap: '4px',
-    marginTop: '20px',
-    padding: '10px',
-    backgroundColor: '#1e1e1e',
-    borderRadius: '4px',
-    maxHeight: '400px', // ограничиваем высоту и добавляем прокрутку
-    overflowY: 'auto' as const,
-  },
-  gridCell: {
+  probsList: {
     display: 'flex',
-    flexDirection: 'column' as const,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    fontSize: '10px',
-    color: '#ccc',
-    textAlign: 'center' as const,
-    padding: '2px',
-    cursor: 'default',
-  },
-  barContainer: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-    height: '70px',
-    marginBottom: '2px',
-  },
-  bar: {
-    width: '80%',
-    backgroundColor: '#4caf50',
-    transition: 'height 0.1s ease',
-    borderRadius: '2px 2px 0 0',
-  },
-  tokenLabel: {
-    wordBreak: 'break-all' as const,
-    whiteSpace: 'nowrap' as const,
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    maxWidth: '100%',
-  },
+    gap: "5px",
+    flexWrap: "wrap",
+    marginTop: "40px"
+  }
 };
